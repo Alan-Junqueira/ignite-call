@@ -25,6 +25,7 @@ export default function Home() {
           height={400}
           priority
           quality={100}
+          draggable={false}
         />
       </Preview>
     </Container>

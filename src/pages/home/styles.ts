@@ -33,4 +33,8 @@ export const Preview = styled('div', {
   '@media(min-width: 600px)': {
     display: 'block',
   },
+
+  img: {
+    userSelect: 'none',
+  },
 })
