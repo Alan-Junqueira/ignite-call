@@ -5,7 +5,9 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { useSearchParams, useRouter } from 'next/navigation'
+import { api } from '@/lib/axios'
+import { AxiosError } from 'axios'
 
 const registerFormSchema = z.object({
   username: z
@@ -24,6 +26,7 @@ type RegisterFormData = z.infer<typeof registerFormSchema>
 
 export default function Register() {
   const searchParams = useSearchParams()
+  const router = useRouter()
 
   const {
     register,
@@ -34,7 +37,21 @@ export default function Register() {
     resolver: zodResolver(registerFormSchema),
   })
 
-  async function handleRegister(data: RegisterFormData) {}
+  async function handleRegister(data: RegisterFormData) {
+    try {
+      const { name, username } = data
+      await api.post('/users', { name, username })
+
+      router.push('/register/connect-calendar')
+    } catch (error) {
+      if (error instanceof AxiosError && error?.response?.data?.message) {
+        alert(error.response.data.message)
+        return
+      }
+
+      console.error(error)
+    }
+  }
 
   useEffect(() => {
     if (searchParams.get('username')) {
