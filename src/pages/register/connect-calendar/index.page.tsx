@@ -1,14 +1,25 @@
 import { Button, Heading, MultiStep, Text } from '@ignite-ui/react'
 import { Container, Header } from '../styles'
-import { ArrowRight } from 'phosphor-react'
-// import { useSearchParams } from 'next/navigation'
+import { ArrowRight, Check } from 'phosphor-react'
+import { useSearchParams } from 'next/navigation'
 // import { api } from '@/lib/axios'
 // import { AxiosError } from 'axios'
-import { ConnectBox, ConnectionItem } from './styles'
+import { AuthError, ConnectBox, ConnectionItem } from './styles'
 import { signIn, useSession } from 'next-auth/react'
 
 export default function Register() {
   const session = useSession()
+  const searchParams = useSearchParams()
+
+  console.log(session)
+
+  const hasAuthError = !!searchParams.get('error')
+  const isSignedIn = session.status === 'authenticated'
+
+  const handleConnectCalendar = async () => {
+    await signIn('google')
+  }
+
   return (
     <Container>
       <Header>
@@ -22,15 +33,28 @@ export default function Register() {
       <ConnectBox>
         <ConnectionItem>
           <Text>Google Calendar</Text>
-          <Button
-            variant="secondary"
-            size="sm"
-            onClick={() => signIn('google')}
-          >
-            Conectar <ArrowRight />
-          </Button>
+          {isSignedIn ? (
+            <Button size="sm" disabled>
+              Conectado
+              <Check />
+            </Button>
+          ) : (
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={handleConnectCalendar}
+            >
+              Conectar <ArrowRight />
+            </Button>
+          )}
         </ConnectionItem>
-        <Button type="submit">
+        {hasAuthError && (
+          <AuthError size="sm">
+            Falha ao se conectar ao Google, verifique se você habilitou as
+            permissões de acesso ao Google Calendar
+          </AuthError>
+        )}
+        <Button type="submit" disabled={!isSignedIn}>
           Próximo passo <ArrowRight />
         </Button>
       </ConnectBox>
