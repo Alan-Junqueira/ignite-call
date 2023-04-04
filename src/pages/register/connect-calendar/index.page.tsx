@@ -1,9 +1,9 @@
-import { Button, Heading, MultiStep, Text, TextInput } from '@ignite-ui/react'
+import { Button, Heading, MultiStep, Text } from '@ignite-ui/react'
 import { Container, Header } from '../styles'
 import { ArrowRight } from 'phosphor-react'
-import { useSearchParams } from 'next/navigation'
-import { api } from '@/lib/axios'
-import { AxiosError } from 'axios'
+// import { useSearchParams } from 'next/navigation'
+// import { api } from '@/lib/axios'
+// import { AxiosError } from 'axios'
 import { ConnectBox, ConnectionItem } from './styles'
 
 export default function Register() {
