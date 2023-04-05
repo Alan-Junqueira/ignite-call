@@ -11,8 +11,6 @@ export default function Register() {
   const session = useSession()
   const searchParams = useSearchParams()
 
-  console.log(session)
-
   const hasAuthError = !!searchParams.get('error')
   const isSignedIn = session.status === 'authenticated'
 
