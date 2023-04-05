@@ -2,12 +2,10 @@ import { Button, Heading, MultiStep, Text } from '@ignite-ui/react'
 import { Container, Header } from '../styles'
 import { ArrowRight, Check } from 'phosphor-react'
 import { useSearchParams } from 'next/navigation'
-// import { api } from '@/lib/axios'
-// import { AxiosError } from 'axios'
 import { AuthError, ConnectBox, ConnectionItem } from './styles'
 import { signIn, useSession } from 'next-auth/react'
 
-export default function Register() {
+export default function ConnectCalendar() {
   const session = useSession()
   const searchParams = useSearchParams()
 
