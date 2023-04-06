@@ -47,7 +47,7 @@ const timeIntervalsFormFormSchema = z.object({
     .transform((intervals) => {
       return intervals.map((interval) => {
         return {
-          weekday: interval.weekDay,
+          weekDay: interval.weekDay,
           startTimeInMinutes: convertTimeStringToMinutes(interval.startTime),
           endTimeInMinutes: convertTimeStringToMinutes(interval.endTime),
         }
@@ -103,6 +103,7 @@ export default function TimeIntervals() {
 
   const handleSetTimeIntervals = async (data: any) => {
     const { intervals } = data as TimeIntervalsFormOutput
+    console.log(intervals)
 
     await api.post('/users/time-intervals', { intervals })
   }
