@@ -7,12 +7,8 @@ import {
   TextInput,
 } from '@ignite-ui/react'
 import { Container, Header } from '../styles'
-import { ArrowRight, Check } from 'phosphor-react'
-import { useSearchParams } from 'next/navigation'
+import { ArrowRight } from 'phosphor-react'
 import {
-  AuthError,
-  ConnectBox,
-  ConnectionItem,
   FormError,
   IntervalBox,
   IntervalDay,
@@ -20,7 +16,6 @@ import {
   IntervalItem,
   IntervalsContainer,
 } from './styles'
-import { signIn, useSession } from 'next-auth/react'
 import { Controller, useFieldArray, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
