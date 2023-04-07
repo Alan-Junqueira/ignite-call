@@ -1,12 +1,28 @@
 import { Button, Text, TextInput } from '@ignite-ui/react'
-import { ConfirmForm, FormActions, FormHeader } from './styles'
+import { ConfirmForm, FormActions, FormError, FormHeader } from './styles'
 import { CalendarBlank, Clock } from 'phosphor-react'
+import { z } from 'zod'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+
+const confirmFormSchema = z.object({
+  name: z.string().min(3, { message: 'O nome preciso no mínimo 3 caracteres' }),
+  email: z.string().email({ message: 'Digite um e-mail válido' }),
+  observations: z.string().nullable(),
+})
+
+type ConfirmFormData = z.infer<typeof confirmFormSchema>
 
 export const ConfirmStep = () => {
-  const handleConfirmScheduling = () => {}
+  const {
+    handleSubmit,
+    register,
+    formState: { errors, isSubmitting },
+  } = useForm<ConfirmFormData>({ resolver: zodResolver(confirmFormSchema) })
+  const handleConfirmScheduling = (data: ConfirmFormData) => {}
 
   return (
-    <ConfirmForm as="form" onSubmit={handleConfirmScheduling}>
+    <ConfirmForm as="form" onSubmit={handleSubmit(handleConfirmScheduling)}>
       <FormHeader>
         <Text>
           <CalendarBlank />
@@ -19,21 +35,31 @@ export const ConfirmStep = () => {
       </FormHeader>
       <label>
         <Text size="sm">Nome Completo</Text>
-        <TextInput placeholder="Sem nome" />
+        <TextInput placeholder="Sem nome" {...register('name')} />
+        {errors.name && <FormError size="sm">{errors.name.message}</FormError>}
       </label>
       <label>
         <Text size="sm">Endereço de email</Text>
-        <TextInput type="email" placeholder="jhondoe@example.com" />
+        <TextInput
+          type="email"
+          placeholder="jhondoe@example.com"
+          {...register('email')}
+        />
+        {errors.email && (
+          <FormError size="sm">{errors.email.message}</FormError>
+        )}
       </label>
       <label>
         <Text size="sm">Observações</Text>
-        <TextInput />
+        <TextInput {...register('observations')} />
       </label>
       <FormActions>
         <Button type="button" variant="tertiary">
           Cancelar
         </Button>
-        <Button type="submit">Confirmar</Button>
+        <Button type="submit" disabled={isSubmitting}>
+          Confirmar
+        </Button>
       </FormActions>
     </ConfirmForm>
   )
