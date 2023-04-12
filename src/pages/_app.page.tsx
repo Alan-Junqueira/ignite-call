@@ -1,3 +1,4 @@
+import { QueryClientProvider } from '@tanstack/react-query'
 import '../lib/dayjs'
 
 import { globalStyles } from '@/styles/global'
@@ -5,6 +6,7 @@ import { SessionProvider } from 'next-auth/react'
 import type { AppProps } from 'next/app'
 
 import { Roboto } from 'next/font/google'
+import { queryClient } from '@/lib/react-query'
 
 const roboto = Roboto({ subsets: ['latin'], weight: ['400', '500', '700'] })
 
@@ -15,10 +17,12 @@ export default function App({
   pageProps: { session, ...pageProps },
 }: AppProps) {
   return (
-    <main className={roboto.className}>
-      <SessionProvider session={session}>
-        <Component {...pageProps} />
-      </SessionProvider>
-    </main>
+    <QueryClientProvider client={queryClient}>
+      <main className={roboto.className}>
+        <SessionProvider session={session}>
+          <Component {...pageProps} />
+        </SessionProvider>
+      </main>
+    </QueryClientProvider>
   )
 }
