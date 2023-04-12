@@ -26,12 +26,9 @@ export const ClaimUsernameForm = () => {
     handleSubmit,
     register,
     formState: { errors },
-    watch,
   } = useForm<ClaimUsernameFormData>({
     resolver: zodResolver(claimUsernameFormSchema),
   })
-
-  console.log(watch())
 
   const handleClaimUsername = async (data: ClaimUsernameFormData) => {
     const { username } = data
